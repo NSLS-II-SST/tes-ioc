@@ -1,0 +1,15 @@
+[project]
+name = "tes-ioc"
+version = "0.1.0"
+description = "IOC to run a TES detector through Dastard"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [
+    {name = "Charles Titus", email = "charles.titus@nist.gov"},
+]
+keywords = ["beamline", "simulation", "ioc", "caproto"]
+dependencies = [
+    "caproto",
+    "asyncio",
+    "zmq",
+    ]
