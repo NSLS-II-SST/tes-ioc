@@ -203,6 +203,21 @@ class AsyncDastardModel:
         response = await self.set_triggers(config)
         return response
 
+    async def start_abaco(self):
+        config = {"AvailableCards": []}
+        config.update(self.config.get("abaco"))
+        okay = await self.send("SourceControl.ConfigureAbacoSource", config)
+        if not okay:
+            return False
+        okay = await self.send("SourceControl.Start", "ABACOSOURCE")
+        if not okay:
+            return False
+        return True
+
+    async def stop_source(self):
+        response = await self.send("SourceControl.Stop", "")
+        return response
+
     def get_n_channels(self):
         return len(self.get_name_to_number_index())
 

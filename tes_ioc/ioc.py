@@ -40,6 +40,9 @@ class TESIOC(PVGroup):
     set_pulse_trigger = pvproperty(value=0, dtype=int, name="SET_PULSE_TRIGGER")
     set_noise_trigger = pvproperty(value=0, dtype=int, name="SET_NOISE_TRIGGER")
 
+    start_source = pvproperty(value=0, dtype=int, name="START_SOURCE")
+    stop_source = pvproperty(value=0, dtype=int, name="STOP_SOURCE")
+
     def __init__(self, *args, config={},**kwargs):
         super().__init__(*args, **kwargs)
         host = config.get("host", "dastard")
@@ -195,6 +198,18 @@ class TESIOC(PVGroup):
     async def file_end(self, instance, value):
         await instance.write(1, verify_value=False)
         await self.dastard_model.stop_writing()
+        return 0
+
+    @start_source.putter
+    async def start_source(self, instance, value):
+        await instance.write(1, verify_value=False)
+        await self.dastard_model.start_abaco()
+        return 0
+
+    @stop_source.putter
+    async def stop_source(self, instance, value):
+        await instance.write(1, verify_value=False)
+        await self.dastard_model.stop_source()
         return 0
 
 def main():
