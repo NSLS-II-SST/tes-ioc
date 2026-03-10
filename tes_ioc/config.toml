@@ -1,7 +1,7 @@
 [dastard]
 default_source = "abaco"
 available_sources = ["abaco", "simulation"]
-host = "dastard"
+host = "localhost"
 port = 5500
 
 [dastard.pulseTrigger]

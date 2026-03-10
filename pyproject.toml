@@ -13,3 +13,6 @@ dependencies = [
     "asyncio",
     "zmq",
     ]
+
+[project.scripts]
+"tes-ioc"= "tes_ioc.ioc:main"

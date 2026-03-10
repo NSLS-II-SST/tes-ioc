@@ -42,7 +42,9 @@ class TESIOC(PVGroup):
 
     def __init__(self, *args, config={},**kwargs):
         super().__init__(*args, **kwargs)
-        self.dastard_model = AsyncDastardModel(host="dastard", port=5500, config=config)
+        host = config.get("host", "dastard")
+        port = config.get("port", 5500)
+        self.dastard_model = AsyncDastardModel(host=host, port=port, config=config)
         self._off_filename = ""
         self._channel_names = []
 
@@ -195,7 +197,7 @@ class TESIOC(PVGroup):
         await self.dastard_model.stop_writing()
         return 0
 
-if __name__ == "__main__":
+def main():
     ioc_options, run_options = ioc_arg_parser(
         default_prefix="XF:07ID-ES{{UCAL}}:",
         desc="TES IOC",
@@ -207,4 +209,7 @@ if __name__ == "__main__":
         config = tomllib.load(f)
     config = config.get("dastard", {})
     ioc = TESIOC(config=config, **ioc_options)
-    run(ioc.pvdb, **run_options)
+    run(ioc.pvdb, **run_options)    
+    
+if __name__ == "__main__":
+    main()
