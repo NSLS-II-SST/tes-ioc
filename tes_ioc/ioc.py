@@ -41,6 +41,7 @@ class TESIOC(PVGroup):
     set_noise_trigger = pvproperty(value=0, dtype=int, name="SET_NOISE_TRIGGER")
 
     start_source = pvproperty(value=0, dtype=int, name="START_SOURCE")
+    start_sim_pulse_source = pvproperty(value=0, dtype=int, name="START_SIM_PULSE_SOURCE")
     stop_source = pvproperty(value=0, dtype=int, name="STOP_SOURCE")
 
     def __init__(self, *args, config={},**kwargs):
@@ -202,8 +203,15 @@ class TESIOC(PVGroup):
 
     @start_source.putter
     async def start_source(self, instance, value):
+        print("DEBUG: Current source: ", self.source.value)
         await instance.write(1, verify_value=False)
         await self.dastard_model.start_abaco()
+        return 0
+
+    @start_sim_pulse_source.putter
+    async def start_sim_pulse_source(self, instance, value):
+        await instance.write(1, verify_value=False)
+        await self.dastard_model.start_sim_pulse_source()
         return 0
 
     @stop_source.putter

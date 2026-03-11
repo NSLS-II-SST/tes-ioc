@@ -214,6 +214,44 @@ class AsyncDastardModel:
             return False
         return True
 
+    async def configure_simulate_pulse_source(
+        self, nchan, sample_rate_hz, pedestal, amplitudes, samples_per_pulse
+    ):
+        params = {
+            "Nchan": nchan,
+            "SampleRate": sample_rate_hz,
+            "Pedestal": pedestal,
+            "Amplitudes": amplitudes,
+            "Nsamp": samples_per_pulse,
+        }
+        response = await self.send("SourceControl.ConfigureSimPulseSource", params)
+        return response
+
+    async def start_sim_pulse_source(
+        self,
+        nchan=None,
+        sample_rate_hz=None,
+        pedestal=None,
+        amplitudes=None,
+        samples_per_pulse=None,
+    ):
+        params = {}
+        params.update(self.config.get("simulation", {}))
+        if nchan is not None:
+            params["Nchan"] = nchan
+        if sample_rate_hz is not None:
+            params["SampleRate"] = sample_rate_hz
+        if pedestal is not None:
+            params["Pedestal"] = pedestal
+        if amplitudes is not None:
+            params["Amplitudes"] = amplitudes
+        if samples_per_pulse is not None:
+            params["Nsamp"] = samples_per_pulse
+
+        response = await self.send("SourceControl.ConfigureSimPulseSource", params)
+        response = await self.send("SourceControl.Start", "SIMPULSESOURCE")
+        return response
+
     async def stop_source(self):
         response = await self.send("SourceControl.Stop", "")
         return response
