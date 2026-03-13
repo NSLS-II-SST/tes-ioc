@@ -16,3 +16,17 @@ dependencies = [
 
 [project.scripts]
 "tes-ioc"= "tes_ioc.ioc:main"
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.dependencies]
+caproto = "*"
+pyzmq = "*"
+
+[tool.pixi.pypi-dependencies]
+tes-ioc = { path = ".", editable = true }
+
+[tool.pixi.tasks]
+run-ioc = "tes-ioc --list-pvs"
