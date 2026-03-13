@@ -29,4 +29,4 @@ pyzmq = "*"
 tes-ioc = { path = ".", editable = true }
 
 [tool.pixi.tasks]
-run-ioc = "tes-ioc --list-pvs"
+ioc = "tes-ioc --list-pvs"
